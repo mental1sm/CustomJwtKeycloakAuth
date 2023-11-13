@@ -1,0 +1,1 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=com.ment09.starter.JwtStarterAutoConfiguration
