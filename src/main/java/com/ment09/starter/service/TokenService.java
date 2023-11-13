@@ -23,15 +23,15 @@ public interface TokenService {
     /**
      * Проверяет время существования токена
     */
-    public boolean validateToken(String accessToken);
+    boolean validateToken(String accessToken);
 
     /**
      * Проверяет токен на интроспекции
     */
-    public boolean introspectToken(String accessToken) throws JsonProcessingException;
+    boolean introspectToken(String accessToken) throws JsonProcessingException;
 
     /**
      * Выдает новый bearer access token в обмен на refresh token
      */
-    public TokenPackWrapper refreshToken(String refreshToken) throws JsonProcessingException;
+    TokenPackWrapper refreshToken(String refreshToken) throws JsonProcessingException;
 }

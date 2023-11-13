@@ -7,8 +7,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
-import java.util.Map;
-
 @Component
 @RequiredArgsConstructor
 public class AuthEncodedUrlTemplate implements EncodedUrlTemplate<TokenAuthDTO> {

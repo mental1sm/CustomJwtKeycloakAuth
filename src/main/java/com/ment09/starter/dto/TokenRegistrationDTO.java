@@ -1,5 +1,5 @@
 package com.ment09.starter.dto;
 
 public interface TokenRegistrationDTO extends TokenAuthDTO {
-    public String getEmail();
+    String getEmail();
 }

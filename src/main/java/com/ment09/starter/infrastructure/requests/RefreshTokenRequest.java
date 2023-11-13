@@ -1,14 +1,10 @@
 package com.ment09.starter.infrastructure.requests;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ment09.starter.domain.TokenPack;
 import com.ment09.starter.domain.TokenPackWrapper;
 import com.ment09.starter.properties.KeycloakProperties;
 import com.ment09.starter.infrastructure.templates.RefreshEncodedUrlTemplate;
-import com.ment09.starter.util.CookieExtractor;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;

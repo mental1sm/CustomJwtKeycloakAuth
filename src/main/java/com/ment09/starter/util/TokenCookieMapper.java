@@ -1,8 +1,6 @@
 package com.ment09.starter.util;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ment09.starter.domain.TokenPack;
 import com.ment09.starter.properties.CookieProperties;
 import jakarta.servlet.http.Cookie;

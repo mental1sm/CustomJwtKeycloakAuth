@@ -2,7 +2,6 @@ package com.ment09.starter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ment09.starter.config.CookieJwtFilter;
-import com.ment09.starter.config.JwtAuthConfiguration;
 import com.ment09.starter.infrastructure.requests.*;
 import com.ment09.starter.infrastructure.templates.*;
 import com.ment09.starter.properties.CookieProperties;
