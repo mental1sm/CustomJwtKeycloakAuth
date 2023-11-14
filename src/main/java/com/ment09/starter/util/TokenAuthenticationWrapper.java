@@ -3,6 +3,9 @@ package com.ment09.starter.util;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletRequestWrapper;
 
+/**
+ * Класс обертки для инъекции Access токена в заголовок Authorization
+*/
 public class TokenAuthenticationWrapper extends HttpServletRequestWrapper {
 
 

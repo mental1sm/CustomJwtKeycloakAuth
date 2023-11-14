@@ -13,6 +13,10 @@ import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 
+/**
+ * Класс, реализующий TokenService
+ * Отвечает за все манипуляции, связанные с JWT токенами
+ */
 @Service
 @RequiredArgsConstructor
 public class ConcreteTokenService implements TokenService {
@@ -23,17 +27,26 @@ public class ConcreteTokenService implements TokenService {
     private final AdminTokenRequest adminTokenRequest;
     private final RegUserInRealmRequest regUserInRealmRequest;
 
+    /**
+     * {@inheritDoc}
+    */
     @Override
     public void registerNewUser(TokenRegistrationDTO tokenRegistrationDTO) throws JsonProcessingException {
         TokenPack admin = adminTokenRequest.getAdminToken();
         regUserInRealmRequest.regUserInRealm(admin, tokenRegistrationDTO);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public TokenPackWrapper authUser(TokenAuthDTO tokenAuthDTO) throws JsonProcessingException {
         return authTokenRequest.getAuthTokens(tokenAuthDTO);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean validateToken(String accessToken) {
         try {
@@ -46,11 +59,17 @@ public class ConcreteTokenService implements TokenService {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean introspectToken(String accessToken) throws JsonProcessingException {
         return introspectTokenRequest.introspectAccessToken(accessToken);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public TokenPackWrapper refreshToken(String refreshToken) throws JsonProcessingException {
         return refreshTokenRequest.refreshToken(refreshToken);

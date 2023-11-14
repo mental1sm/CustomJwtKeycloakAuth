@@ -14,6 +14,10 @@ import org.springframework.web.client.RestTemplate;
 import java.util.Map;
 
 
+/**
+ * Запрос к серверу авторизации Keycloak
+ * Регистрирует от имени админа нового пользователя в конкретном реалме
+ */
 @Component
 @RequiredArgsConstructor
 public class RegUserInRealmRequest {
@@ -22,11 +26,18 @@ public class RegUserInRealmRequest {
     private final RestTemplate restTemplate;
     private final KeycloakProperties keycloakProperties;
 
+    /**
+     * Запрос к серверу авторизации Keycloak
+     * Регистрирует от имени админа нового пользователя в конкретном реалме
+     * @param tokenRegistrationDTO Регистрационный ДТО
+     * @param admin Запакованный токен администратора
+     * @return успешность регистрации пользователя
+     */
     public boolean regUserInRealm(TokenPack admin, TokenRegistrationDTO tokenRegistrationDTO) throws JsonProcessingException {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Authorization", String.format("Bearer %s", admin.getToken()));
 
-        String payload = jsonTemplate.jsonBody(tokenRegistrationDTO);
+        String payload = jsonTemplate.getJsonifiedString(tokenRegistrationDTO);
         HttpEntity<String> httpEntity = new HttpEntity<>(payload, headers);
         ResponseEntity<Map<String, Object>> response = restTemplate.exchange(
                 keycloakProperties.getUserManagementUrl(),

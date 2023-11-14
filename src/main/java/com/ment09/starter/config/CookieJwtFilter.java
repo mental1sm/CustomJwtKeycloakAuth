@@ -20,6 +20,12 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
 import java.util.Optional;
 
+
+/**
+ * Фильтр, отвечающий за извлечение, проверку, выдачу токенов.
+ * Извлекает Access и Refreh токены из Куков и проводит инспекцию,
+ * принимая решение о пропуске или отбраковке запроса
+*/
 @Component
 @Slf4j
 @Order(Ordered.HIGHEST_PRECEDENCE)
@@ -37,6 +43,9 @@ public class CookieJwtFilter extends OncePerRequestFilter {
         this.tokenCookieMapper = tokenCookieMapper;
     }
 
+    /**
+     * Фильтрует запрос
+    */
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         this.request = request;
@@ -54,11 +63,17 @@ public class CookieJwtFilter extends OncePerRequestFilter {
         }
     }
 
+    /**
+     * Метод, действующий в случае, если токен не найден
+     */
     private void tokenIsNotExists() throws ServletException, IOException {
         log.info("Токен не найден. Ищем рефреш-токен...");
         refreshTokenCheck();
     }
 
+    /**
+     * Метод, действующий в случае, если токен найден
+     */
     private void tokenExists(String realAccessToken) throws ServletException, IOException {
         log.info("Токен существует. Проверяем срок истечения...");
         boolean healthy = tokenService.validateToken(realAccessToken);
@@ -74,6 +89,9 @@ public class CookieJwtFilter extends OncePerRequestFilter {
         }
     }
 
+    /**
+     * Метод, действующий в случае, если Refresh токен найден
+     */
     private void refreshExists(String realRefreshToken) throws IOException, ServletException {
         try {
             log.info("Рефреш-токен найден. Запрашиваем новые токены...");
@@ -86,11 +104,17 @@ public class CookieJwtFilter extends OncePerRequestFilter {
         }
     }
 
+    /**
+     * Метод, действующий в случае, если Refresh токен не найден
+     */
     private void refreshIsNotExists() throws ServletException, IOException {
         log.info("Рефреш-токен не найден. Авторизация провалена.");
         filterChain.doFilter(request, response);
     }
 
+    /**
+     * Метод, проверяющий сам факт наличия Refresh токена в куках
+     */
     private void refreshTokenCheck() throws ServletException, IOException {
         Optional<String> refreshToken = cookieExtractor.extractValue(request, CustomConstants.TokenConstants.REFRESH_TOKEN.getValue());
         if (refreshToken.isPresent()) {

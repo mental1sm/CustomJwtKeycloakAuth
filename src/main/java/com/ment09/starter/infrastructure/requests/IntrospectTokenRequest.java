@@ -26,6 +26,11 @@ public class IntrospectTokenRequest {
     private final ObjectMapper objectMapper;
     private final RestTemplate introspectTemplate;
 
+    /**
+     * Делает запрос на сервер аутентификации и возвращает валидность токена
+     * @param accessToken Access token
+     * @return Результат интрспекции: токен валиден либо невалиден
+     */
     public boolean introspectAccessToken(String accessToken) throws JsonProcessingException {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);

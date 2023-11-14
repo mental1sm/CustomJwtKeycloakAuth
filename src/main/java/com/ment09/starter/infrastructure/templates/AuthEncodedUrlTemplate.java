@@ -7,12 +7,18 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
+/**
+ * Тело запроса для получения Access и Redresh токенов от Keycloak
+ */
 @Component
 @RequiredArgsConstructor
 public class AuthEncodedUrlTemplate implements EncodedUrlTemplate<TokenAuthDTO> {
 
     private final KeycloakProperties keycloakProperties;
 
+    /**
+     * {@inheritDoc}
+    */
     public MultiValueMap<String, String> encodedUrlBody(TokenAuthDTO tokenAuthDTO) {
         MultiValueMap<String, String> data = new LinkedMultiValueMap<>();
         data.add("grant_type", "password");

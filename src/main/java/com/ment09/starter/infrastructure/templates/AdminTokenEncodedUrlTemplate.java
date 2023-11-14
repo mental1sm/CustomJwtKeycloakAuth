@@ -6,6 +6,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
+/**
+ * Тело запроса для получения admin-токена от Keycloak
+*/
 @Component
 @RequiredArgsConstructor
 public class AdminTokenEncodedUrlTemplate {

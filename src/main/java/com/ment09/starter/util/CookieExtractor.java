@@ -7,9 +7,18 @@ import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 
+/**
+ * Класс для извлечения параметра из куков
+*/
 @Component
 @RequiredArgsConstructor
 public class CookieExtractor {
+    /**
+     * Метод извлекает значение параметра из куков
+     * @param request Сервлетный запрос
+     * @param cookieName имя параметра
+     * @return Значение, либо null
+    */
     public Optional<String> extractValue(HttpServletRequest request, String cookieName) {
         Cookie[] cookies = request.getCookies();
         if (cookies != null) {

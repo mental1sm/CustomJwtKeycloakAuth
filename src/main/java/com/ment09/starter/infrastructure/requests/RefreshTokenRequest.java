@@ -15,7 +15,8 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 /**
- * Делает запрос на сервер аутентификации и возвращает новый токен
+ * Запрос к серверу авторизации Keycloak для обновления токенов
+ * Возвращает Access и Refresh токены
  */
 @Component
 @RequiredArgsConstructor
@@ -26,6 +27,12 @@ public class RefreshTokenRequest extends BaseRequestWithTokenResponse {
     private final RestTemplate refreshTemplate;
     private final ObjectMapper objectMapper;
 
+    /**
+     * Запрос к серверу авторизации Keycloak для обновления токенов
+     * Возвращает Access и Refresh токены
+     * @param refreshToken Refresh токен
+     * @return Оберточный класс с двумя токенами
+     */
     public TokenPackWrapper refreshToken(String refreshToken) throws JsonProcessingException {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);

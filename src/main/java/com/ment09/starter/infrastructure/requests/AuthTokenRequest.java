@@ -17,8 +17,9 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 /**
- * Делает запрос на сервер аутентификации и возвращает новый токен
-*/
+ * Запрос к серверу авторизации Keycloak
+ * Возвращает Access и Refresh токены
+ */
 @Service
 @RequiredArgsConstructor
 public class AuthTokenRequest extends BaseRequestWithTokenResponse {
@@ -28,6 +29,12 @@ public class AuthTokenRequest extends BaseRequestWithTokenResponse {
     private final ObjectMapper objectMapper;
     private final RestTemplate authTemplate;
 
+    /**
+     * Метод для получения оберточного класса TokenPackWrapper,
+     * несущего в себе как Access, так и Refreh токены
+     * @param tokenAuthDTO ДТО авторизации
+     * @return оберточный класс TokenPackWrapper, содержащий внутри оба токена
+    */
     public TokenPackWrapper getAuthTokens(TokenAuthDTO tokenAuthDTO) throws JsonProcessingException {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);

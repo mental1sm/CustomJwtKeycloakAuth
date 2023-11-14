@@ -15,6 +15,10 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.http.HttpHeaders;
 
+/**
+ * Запрос к серверу авторизации Keycloak
+ * Возвращает токен администратора Keycloak
+*/
 @Service
 @RequiredArgsConstructor
 public class AdminTokenRequest {
@@ -24,6 +28,10 @@ public class AdminTokenRequest {
     private final RestTemplate restTemplate;
     private final KeycloakProperties keycloakProperties;
 
+    /**
+     * Метод для получения токена администратора,
+     * @return TokenPack - запакованный admin токен
+     */
     public TokenPack getAdminToken() throws JsonProcessingException {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);

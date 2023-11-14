@@ -2,7 +2,13 @@ package com.ment09.starter.util;
 
 import lombok.Getter;
 
+/**
+ * Константы стартера
+*/
 public class CustomConstants {
+    /**
+     * Константы для токенов
+    */
     @Getter
     public enum TokenConstants {
         ACCESS_TOKEN("ACCESS_TOKEN"),

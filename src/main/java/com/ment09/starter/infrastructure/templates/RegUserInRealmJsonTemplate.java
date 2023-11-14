@@ -8,13 +8,19 @@ import com.ment09.starter.dto.TokenRegistrationDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+/**
+ * Тело запроса для регистрации нового пользователя на сервере аутентификации Keycloak
+ */
 @Component
 @RequiredArgsConstructor
-public class RegUserInRealmJsonTemplate{
+public class RegUserInRealmJsonTemplate implements JsonTemplate<TokenRegistrationDTO> {
 
     private final ObjectMapper objectMapper;
 
-    public String jsonBody(TokenRegistrationDTO tokenRegistrationDTO) throws JsonProcessingException {
+    /**
+     * {@inheritDoc}
+    */
+    public String getJsonifiedString(TokenRegistrationDTO tokenRegistrationDTO) throws JsonProcessingException {
         ObjectNode json = objectMapper.createObjectNode();
         json.put("username", tokenRegistrationDTO.getUsername());
         json.put("email", tokenRegistrationDTO.getEmail());
