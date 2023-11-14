@@ -1,0 +1,24 @@
+{
+  "properties": [
+    {
+      "name": "spring.custom-auth.cookie.http-only",
+      "type": "java.lang.Boolean",
+      "description": "Enables or disables HTTP ONLY mode for Cookie."
+    },
+    {
+      "name": "spring.custom-auth.cookie.secured",
+      "type": "java.lang.Boolean",
+      "description": "Enables or disables secured mode for Cookie."
+    },
+    {
+      "name": "spring.custom-auth.cookie.path",
+      "type": "java.lang.String",
+      "description": "Defines the path for Cookie."
+    },
+    {
+      "name": "spring.custom-auth.cookie.trusted-domain",
+      "type": "java.lang.String",
+      "description": "Defines the trusted domain for Cookie."
+    }
+  ]
+}

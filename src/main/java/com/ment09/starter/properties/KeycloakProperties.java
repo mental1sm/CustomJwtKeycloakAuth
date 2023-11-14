@@ -2,15 +2,17 @@ package com.ment09.starter.properties;
 
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
 
 /**
  * Свойства сервера авторизации Keycloak
  */
 @Getter
 @Configuration
-@PropertySource("/application.yaml")
+@ConfigurationProperties(prefix = "spring.custom-auth.keycloak")
+@EnableConfigurationProperties
 public class KeycloakProperties {
     @Value("${spring.custom-auth.keycloak.client-id}")
     private String clientId;

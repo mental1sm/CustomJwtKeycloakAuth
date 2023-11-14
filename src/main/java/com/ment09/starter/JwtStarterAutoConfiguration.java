@@ -10,13 +10,24 @@ import com.ment09.starter.service.ConcreteTokenService;
 import com.ment09.starter.service.TokenService;
 import com.ment09.starter.util.CookieExtractor;
 import com.ment09.starter.util.TokenCookieMapper;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.web.client.RestTemplate;
 
-@Configuration
+@AutoConfiguration
 public class JwtStarterAutoConfiguration {
+
+    @Bean
+    public CookieProperties cookieProperties() {
+        return new CookieProperties();
+    }
+
+    @Bean
+    public KeycloakProperties keycloakProperties() {
+        return new KeycloakProperties();
+    }
 
     @Bean
     public ObjectMapper objectMapper() {
@@ -44,6 +55,7 @@ public class JwtStarterAutoConfiguration {
     }
 
     @Bean
+    @ConditionalOnMissingBean(TokenService.class)
     public TokenService tokenService(
             AuthTokenRequest authTokenRequest,
             IntrospectTokenRequest introspectTokenRequest,

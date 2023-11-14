@@ -2,15 +2,15 @@ package com.ment09.starter.properties;
 
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 
-/**
- * Свойства куки
-*/
 @Getter
 @Configuration
-@PropertySource("/application.yaml")
+@ConfigurationProperties(prefix = "spring.custom-auth.cookie")
+@EnableConfigurationProperties
 public class CookieProperties {
     @Value("${spring.custom-auth.cookie.http-only}")
     private boolean httpOnly;
