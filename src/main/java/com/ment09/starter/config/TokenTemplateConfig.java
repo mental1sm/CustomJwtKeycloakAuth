@@ -2,7 +2,7 @@ package com.ment09.starter.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ment09.starter.infrastructure.templates.*;
-import com.ment09.starter.properties.KeycloakProperties;
+import com.ment09.starter.properties.AuthServerProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -10,23 +10,23 @@ import org.springframework.context.annotation.Configuration;
 public class TokenTemplateConfig {
 
     @Bean
-    public AuthEncodedUrlTemplate authEncodedUrlTemplate(KeycloakProperties keycloakProperties) {
-        return new AuthEncodedUrlTemplate(keycloakProperties);
+    public AuthEncodedUrlTemplate authEncodedUrlTemplate(AuthServerProperties authServerProperties) {
+        return new AuthEncodedUrlTemplate(authServerProperties);
     }
 
     @Bean
-    public IntrospectEncodedUrlTemplate introspectEncodedUrlTemplate(KeycloakProperties keycloakProperties) {
-        return new IntrospectEncodedUrlTemplate(keycloakProperties);
+    public IntrospectEncodedUrlTemplate introspectEncodedUrlTemplate(AuthServerProperties authServerProperties) {
+        return new IntrospectEncodedUrlTemplate(authServerProperties);
     }
 
     @Bean
-    public RefreshEncodedUrlTemplate refreshEncodedUrlTemplate(KeycloakProperties keycloakProperties) {
-        return new RefreshEncodedUrlTemplate(keycloakProperties);
+    public RefreshEncodedUrlTemplate refreshEncodedUrlTemplate(AuthServerProperties authServerProperties) {
+        return new RefreshEncodedUrlTemplate(authServerProperties);
     }
 
     @Bean
-    public AdminTokenEncodedUrlTemplate adminTokenEncodedUrlTemplate(KeycloakProperties keycloakProperties) {
-        return new AdminTokenEncodedUrlTemplate(keycloakProperties);
+    public AdminTokenEncodedUrlTemplate adminTokenEncodedUrlTemplate(AuthServerProperties authServerProperties) {
+        return new AdminTokenEncodedUrlTemplate(authServerProperties);
     }
 
     @Bean

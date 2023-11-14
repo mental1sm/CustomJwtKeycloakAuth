@@ -1,6 +1,6 @@
 package com.ment09.starter.infrastructure.templates;
 
-import com.ment09.starter.properties.KeycloakProperties;
+import com.ment09.starter.properties.AuthServerProperties;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.util.LinkedMultiValueMap;
@@ -13,7 +13,7 @@ import org.springframework.util.MultiValueMap;
 @RequiredArgsConstructor
 public class RefreshEncodedUrlTemplate implements EncodedUrlTemplate<String> {
 
-    private final KeycloakProperties keycloakProperties;
+    private final AuthServerProperties authServerProperties;
 
     /**
      * {@inheritDoc}
@@ -22,8 +22,8 @@ public class RefreshEncodedUrlTemplate implements EncodedUrlTemplate<String> {
         MultiValueMap<String, String> data = new LinkedMultiValueMap<>();
         data.add("grant_type", "refresh_token");
         data.add("refresh_token", refreshToken);
-        data.add("client_id", keycloakProperties.getClientId());
-        data.add("client_secret", keycloakProperties.getClientSecret());
+        data.add("client_id", authServerProperties.getClientId());
+        data.add("client_secret", authServerProperties.getClientSecret());
         return data;
     }
 }

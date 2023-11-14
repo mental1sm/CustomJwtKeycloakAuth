@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ment09.starter.domain.TokenPack;
 import com.ment09.starter.infrastructure.templates.AdminTokenEncodedUrlTemplate;
-import com.ment09.starter.properties.KeycloakProperties;
+import com.ment09.starter.properties.AuthServerProperties;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.MediaType;
@@ -26,7 +26,7 @@ public class AdminTokenRequest {
     private final ObjectMapper objectMapper;
     private final AdminTokenEncodedUrlTemplate encodedUrlTemplate;
     private final RestTemplate restTemplate;
-    private final KeycloakProperties keycloakProperties;
+    private final AuthServerProperties authServerProperties;
 
     /**
      * Метод для получения токена администратора,
@@ -38,7 +38,7 @@ public class AdminTokenRequest {
 
         MultiValueMap<String, String> payload = encodedUrlTemplate.encodedUrlBody();
         HttpEntity<MultiValueMap<String, String>> httpEntity = new HttpEntity<>(payload, headers);
-        ResponseEntity<String> response = restTemplate.postForEntity(keycloakProperties.getAdminTokenUrl(), httpEntity, String.class);
+        ResponseEntity<String> response = restTemplate.postForEntity(authServerProperties.getAdminTokenUrl(), httpEntity, String.class);
         JsonNode jsonNode = objectMapper.readTree(response.getBody());
         return TokenPack.builder()
                 .token(jsonNode.get("access_token").toString())

@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.ment09.starter.domain.TokenPack;
 import com.ment09.starter.dto.TokenRegistrationDTO;
 import com.ment09.starter.infrastructure.templates.RegUserInRealmJsonTemplate;
-import com.ment09.starter.properties.KeycloakProperties;
+import com.ment09.starter.properties.AuthServerProperties;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
@@ -24,7 +24,7 @@ public class RegUserInRealmRequest {
 
     private final RegUserInRealmJsonTemplate jsonTemplate;
     private final RestTemplate restTemplate;
-    private final KeycloakProperties keycloakProperties;
+    private final AuthServerProperties authServerProperties;
 
     /**
      * Запрос к серверу авторизации Keycloak
@@ -40,7 +40,7 @@ public class RegUserInRealmRequest {
         String payload = jsonTemplate.getJsonifiedString(tokenRegistrationDTO);
         HttpEntity<String> httpEntity = new HttpEntity<>(payload, headers);
         ResponseEntity<Map<String, Object>> response = restTemplate.exchange(
-                keycloakProperties.getUserManagementUrl(),
+                authServerProperties.getUserManagementUrl(),
                 HttpMethod.POST,
                 httpEntity,
                 new ParameterizedTypeReference<>() {}

@@ -5,7 +5,7 @@ import com.ment09.starter.config.CookieJwtFilter;
 import com.ment09.starter.infrastructure.requests.*;
 import com.ment09.starter.infrastructure.templates.*;
 import com.ment09.starter.properties.CookieProperties;
-import com.ment09.starter.properties.KeycloakProperties;
+import com.ment09.starter.properties.AuthServerProperties;
 import com.ment09.starter.service.ConcreteTokenService;
 import com.ment09.starter.service.TokenService;
 import com.ment09.starter.util.CookieExtractor;
@@ -25,8 +25,8 @@ public class JwtStarterAutoConfiguration {
     }
 
     @Bean
-    public KeycloakProperties keycloakProperties() {
-        return new KeycloakProperties();
+    public AuthServerProperties keycloakProperties() {
+        return new AuthServerProperties();
     }
 
     @Bean
@@ -70,34 +70,34 @@ public class JwtStarterAutoConfiguration {
     @Bean
     public AuthTokenRequest authTokenRequest(
             AuthEncodedUrlTemplate template,
-            KeycloakProperties keycloakProperties,
+            AuthServerProperties authServerProperties,
             ObjectMapper objectMapper,
             RestTemplate restTemplate
     )
     {
-        return new AuthTokenRequest(template, keycloakProperties, objectMapper, restTemplate);
+        return new AuthTokenRequest(template, authServerProperties, objectMapper, restTemplate);
     }
 
     @Bean
     public IntrospectTokenRequest introspectTokenRequest(
             IntrospectEncodedUrlTemplate template,
-            KeycloakProperties keycloakProperties,
+            AuthServerProperties authServerProperties,
             ObjectMapper objectMapper,
             RestTemplate restTemplate
     )
     {
-        return new IntrospectTokenRequest(keycloakProperties, template, objectMapper, restTemplate);
+        return new IntrospectTokenRequest(authServerProperties, template, objectMapper, restTemplate);
     }
 
     @Bean
     public RefreshTokenRequest refreshTokenRequest(
             RefreshEncodedUrlTemplate template,
-            KeycloakProperties keycloakProperties,
+            AuthServerProperties authServerProperties,
             RestTemplate restTemplate,
             ObjectMapper objectMapper
     )
     {
-        return new RefreshTokenRequest(template, keycloakProperties, restTemplate, objectMapper);
+        return new RefreshTokenRequest(template, authServerProperties, restTemplate, objectMapper);
     }
 
     @Bean
@@ -105,21 +105,21 @@ public class JwtStarterAutoConfiguration {
             ObjectMapper objectMapper,
             AdminTokenEncodedUrlTemplate adminTokenEncodedUrlTemplate,
             RestTemplate restTemplate,
-            KeycloakProperties keycloakProperties
+            AuthServerProperties authServerProperties
     )
     {
-        return new AdminTokenRequest(objectMapper, adminTokenEncodedUrlTemplate, restTemplate, keycloakProperties);
+        return new AdminTokenRequest(objectMapper, adminTokenEncodedUrlTemplate, restTemplate, authServerProperties);
     }
 
     @Bean
     public RegUserInRealmRequest regUserInRealmRequest(
             RegUserInRealmJsonTemplate regUserInRealmJsonTemplate,
             RestTemplate restTemplate,
-            KeycloakProperties keycloakProperties
+            AuthServerProperties authServerProperties
     )
     {
 
-        return new RegUserInRealmRequest(regUserInRealmJsonTemplate, restTemplate, keycloakProperties);
+        return new RegUserInRealmRequest(regUserInRealmJsonTemplate, restTemplate, authServerProperties);
     }
 
     @Bean
@@ -133,23 +133,23 @@ public class JwtStarterAutoConfiguration {
     }
 
     @Bean
-    public AuthEncodedUrlTemplate authEncodedUrlTemplate(KeycloakProperties keycloakProperties) {
-        return new AuthEncodedUrlTemplate(keycloakProperties);
+    public AuthEncodedUrlTemplate authEncodedUrlTemplate(AuthServerProperties authServerProperties) {
+        return new AuthEncodedUrlTemplate(authServerProperties);
     }
 
     @Bean
-    public IntrospectEncodedUrlTemplate introspectEncodedUrlTemplate(KeycloakProperties keycloakProperties) {
-        return new IntrospectEncodedUrlTemplate(keycloakProperties);
+    public IntrospectEncodedUrlTemplate introspectEncodedUrlTemplate(AuthServerProperties authServerProperties) {
+        return new IntrospectEncodedUrlTemplate(authServerProperties);
     }
 
     @Bean
-    public RefreshEncodedUrlTemplate refreshEncodedUrlTemplate(KeycloakProperties keycloakProperties) {
-        return new RefreshEncodedUrlTemplate(keycloakProperties);
+    public RefreshEncodedUrlTemplate refreshEncodedUrlTemplate(AuthServerProperties authServerProperties) {
+        return new RefreshEncodedUrlTemplate(authServerProperties);
     }
 
     @Bean
-    public AdminTokenEncodedUrlTemplate adminTokenEncodedUrlTemplate(KeycloakProperties keycloakProperties) {
-        return new AdminTokenEncodedUrlTemplate(keycloakProperties);
+    public AdminTokenEncodedUrlTemplate adminTokenEncodedUrlTemplate(AuthServerProperties authServerProperties) {
+        return new AdminTokenEncodedUrlTemplate(authServerProperties);
     }
 
     @Bean

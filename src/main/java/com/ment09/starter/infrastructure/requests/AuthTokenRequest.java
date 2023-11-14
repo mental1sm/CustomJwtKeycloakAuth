@@ -5,7 +5,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ment09.starter.domain.TokenPackWrapper;
 import com.ment09.starter.dto.TokenAuthDTO;
-import com.ment09.starter.properties.KeycloakProperties;
+import com.ment09.starter.properties.AuthServerProperties;
 import com.ment09.starter.infrastructure.templates.AuthEncodedUrlTemplate;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpEntity;
@@ -25,7 +25,7 @@ import org.springframework.web.client.RestTemplate;
 public class AuthTokenRequest extends BaseRequestWithTokenResponse {
 
     private final AuthEncodedUrlTemplate encodedUrlTemplate;
-    private final KeycloakProperties keycloakProperties;
+    private final AuthServerProperties authServerProperties;
     private final ObjectMapper objectMapper;
     private final RestTemplate authTemplate;
 
@@ -41,7 +41,7 @@ public class AuthTokenRequest extends BaseRequestWithTokenResponse {
 
         MultiValueMap<String, String> payload = encodedUrlTemplate.encodedUrlBody(tokenAuthDTO);
         HttpEntity<MultiValueMap<String, String>> requestHttpEntity = new HttpEntity<>(payload, headers);
-        String tokenEndpointUrl = keycloakProperties.getTokenUrl();
+        String tokenEndpointUrl = authServerProperties.getTokenUrl();
         ResponseEntity<String> response = authTemplate.postForEntity(tokenEndpointUrl, requestHttpEntity, String.class);
 
         return extractTokensFromResponseAsWrappedPack(objectMapper.readTree(response.getBody()));

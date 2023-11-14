@@ -19,6 +19,46 @@
       "name": "spring.custom-auth.cookie.trusted-domain",
       "type": "java.lang.String",
       "description": "Defines the trusted domain for Cookie."
+    },
+    {
+      "name": "spring.custom-auth.server.client-id",
+      "type": "java.lang.String",
+      "description": "Keycloak client id."
+    },
+    {
+      "name": "spring.custom-auth.server.client-secret",
+      "type": "java.lang.String",
+      "description": "Keycloak client secret."
+    },
+    {
+      "name": "spring.custom-auth.server.token-url",
+      "type": "java.lang.String",
+      "description": "Keycloak token url."
+    },
+    {
+      "name": "spring.custom-auth.server.introspect-url",
+      "type": "java.lang.String",
+      "description": "Keycloak introspect url."
+    },
+    {
+      "name": "spring.custom-auth.server.admin-username",
+      "type": "java.lang.String",
+      "description": "Keycloak admin username."
+    },
+    {
+      "name": "spring.custom-auth.server.admin-password",
+      "type": "java.lang.String",
+      "description": "Keycloak admin password."
+    },
+    {
+      "name": "spring.custom-auth.server.admin-token-url",
+      "type": "java.lang.String",
+      "description": "Keycloak admin token url."
+    },
+    {
+      "name": "spring.custom-auth.server.admin-users-url",
+      "type": "java.lang.String",
+      "description": "Keycloak admin cli url for realm."
     }
   ]
 }

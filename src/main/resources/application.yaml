@@ -1,14 +1,14 @@
 spring:
   custom-auth:
-    keycloak:
+    server:
       client-id: website-client
       client-secret: znM9EH1egkhiPH1KHS1aH7kx5LxVkbLz
       token-url: http://localhost:8282/realms/website/protocol/openid-connect/token
       introspect-url: http://localhost:8282/realms/website/protocol/openid-connect/token/introspect
-      admin-username: admin
       admin-password: 123321
       admin-token-url: http://localhost:8282/realms/master/protocol/openid-connect/token
       admin-users-url: http://localhost:8282/admin/realms/wallet-realm/users
+      admin-username: admin
     cookie:
       trusted-domain: 127.0.0.1
       path: /

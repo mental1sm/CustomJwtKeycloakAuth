@@ -3,7 +3,7 @@ package com.ment09.starter.infrastructure.requests;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ment09.starter.domain.TokenPackWrapper;
-import com.ment09.starter.properties.KeycloakProperties;
+import com.ment09.starter.properties.AuthServerProperties;
 import com.ment09.starter.infrastructure.templates.RefreshEncodedUrlTemplate;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpEntity;
@@ -23,7 +23,7 @@ import org.springframework.web.client.RestTemplate;
 public class RefreshTokenRequest extends BaseRequestWithTokenResponse {
 
     private final RefreshEncodedUrlTemplate refreshEncodedUrl;
-    private final KeycloakProperties keycloakProperties;
+    private final AuthServerProperties authServerProperties;
     private final RestTemplate refreshTemplate;
     private final ObjectMapper objectMapper;
 
@@ -39,7 +39,7 @@ public class RefreshTokenRequest extends BaseRequestWithTokenResponse {
 
         MultiValueMap<String, String> payload = refreshEncodedUrl.encodedUrlBody(refreshToken);
         HttpEntity<MultiValueMap<String, String>> requestHttpEntity = new HttpEntity<>(payload, headers);
-        ResponseEntity<String> response = refreshTemplate.postForEntity(keycloakProperties.getTokenUrl(), requestHttpEntity, String.class);
+        ResponseEntity<String> response = refreshTemplate.postForEntity(authServerProperties.getTokenUrl(), requestHttpEntity, String.class);
 
         return extractTokensFromResponseAsWrappedPack(objectMapper.readTree(response.getBody()));
     }

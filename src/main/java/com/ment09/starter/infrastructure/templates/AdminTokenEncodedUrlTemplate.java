@@ -1,6 +1,6 @@
 package com.ment09.starter.infrastructure.templates;
 
-import com.ment09.starter.properties.KeycloakProperties;
+import com.ment09.starter.properties.AuthServerProperties;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.util.LinkedMultiValueMap;
@@ -13,15 +13,15 @@ import org.springframework.util.MultiValueMap;
 @RequiredArgsConstructor
 public class AdminTokenEncodedUrlTemplate {
 
-    private final KeycloakProperties keycloakProperties;
+    private final AuthServerProperties authServerProperties;
 
     public MultiValueMap<String, String> encodedUrlBody() {
         MultiValueMap<String, String> data = new LinkedMultiValueMap<>();
         data.add("grant_type", "password");
-        data.add("client_id", keycloakProperties.getClientId());
-        data.add("username", keycloakProperties.getAdminUsername());
-        data.add("password", keycloakProperties.getAdminPassword());
-        data.add("client_secret", keycloakProperties.getClientSecret());
+        data.add("client_id", authServerProperties.getClientId());
+        data.add("username", authServerProperties.getAdminUsername());
+        data.add("password", authServerProperties.getAdminPassword());
+        data.add("client_secret", authServerProperties.getClientSecret());
         return data;
     }
 }

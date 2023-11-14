@@ -3,7 +3,7 @@ package com.ment09.starter.infrastructure.requests;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ment09.starter.properties.KeycloakProperties;
+import com.ment09.starter.properties.AuthServerProperties;
 import com.ment09.starter.infrastructure.templates.IntrospectEncodedUrlTemplate;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpEntity;
@@ -21,7 +21,7 @@ import org.springframework.web.client.RestTemplate;
 @RequiredArgsConstructor
 public class IntrospectTokenRequest {
 
-    private final KeycloakProperties keycloakProperties;
+    private final AuthServerProperties authServerProperties;
     private final IntrospectEncodedUrlTemplate encodedUrl;
     private final ObjectMapper objectMapper;
     private final RestTemplate introspectTemplate;
@@ -37,7 +37,7 @@ public class IntrospectTokenRequest {
 
         MultiValueMap<String, String> payload = encodedUrl.encodedUrlBody(accessToken);
         HttpEntity<MultiValueMap<String, String>> requestHttpEntity = new HttpEntity<>(payload, headers);
-        String introspectionEndpointUrl = keycloakProperties.getIntrospectUrl();
+        String introspectionEndpointUrl = authServerProperties.getIntrospectUrl();
         String responseBody = introspectTemplate.postForEntity(introspectionEndpointUrl, requestHttpEntity, String.class).getBody();
         JsonNode responseNode = objectMapper.readTree(responseBody);
 

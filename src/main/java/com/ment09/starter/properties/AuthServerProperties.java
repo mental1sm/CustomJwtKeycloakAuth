@@ -11,23 +11,23 @@ import org.springframework.context.annotation.Configuration;
  */
 @Getter
 @Configuration
-@ConfigurationProperties(prefix = "spring.custom-auth.keycloak")
+@ConfigurationProperties(prefix = "spring.custom-auth.server")
 @EnableConfigurationProperties
-public class KeycloakProperties {
-    @Value("${spring.custom-auth.keycloak.client-id}")
+public class AuthServerProperties {
+    @Value("${spring.custom-auth.server.client-id}")
     private String clientId;
-    @Value("${spring.custom-auth.keycloak.token-url}")
+    @Value("${spring.custom-auth.server.token-url}")
     private String tokenUrl;
-    @Value("${spring.custom-auth.keycloak.introspect-url}")
+    @Value("${spring.custom-auth.server.introspect-url}")
     private String introspectUrl;
-    @Value("${spring.custom-auth.keycloak.client-secret}")
+    @Value("${spring.custom-auth.server.client-secret}")
     private String clientSecret;
-    @Value("${spring.custom-auth.keycloak.admin-username}")
+    @Value("${spring.custom-auth.server.admin-username}")
     private String adminUsername;
-    @Value("${spring.custom-auth.keycloak.admin-password}")
+    @Value("${spring.custom-auth.server.admin-password}")
     private String adminPassword;
-    @Value("${spring.custom-auth.keycloak.admin-token-url}")
+    @Value("${spring.custom-auth.server.admin-token-url}")
     private String adminTokenUrl;
-    @Value("${spring.custom-auth.keycloak.admin-users-url}")
+    @Value("${spring.custom-auth.server.admin-users-url}")
     private String userManagementUrl;
 }
