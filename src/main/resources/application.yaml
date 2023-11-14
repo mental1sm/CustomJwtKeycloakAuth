@@ -1,5 +1,5 @@
 spring:
-  custom-adapter:
+  custom-auth:
     keycloak:
       client-id: website-client
       client-secret: znM9EH1egkhiPH1KHS1aH7kx5LxVkbLz

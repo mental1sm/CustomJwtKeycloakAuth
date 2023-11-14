@@ -12,20 +12,20 @@ import org.springframework.context.annotation.PropertySource;
 @Configuration
 @PropertySource("/application.yaml")
 public class KeycloakProperties {
-    @Value("${spring.custom-adapter.keycloak.client-id}")
+    @Value("${spring.custom-auth.keycloak.client-id}")
     private String clientId;
-    @Value("${spring.custom-adapter.keycloak.token-url}")
+    @Value("${spring.custom-auth.keycloak.token-url}")
     private String tokenUrl;
-    @Value("${spring.custom-adapter.keycloak.introspect-url}")
+    @Value("${spring.custom-auth.keycloak.introspect-url}")
     private String introspectUrl;
-    @Value("${spring.custom-adapter.keycloak.client-secret}")
+    @Value("${spring.custom-auth.keycloak.client-secret}")
     private String clientSecret;
-    @Value("${spring.custom-adapter.keycloak.admin-username}")
+    @Value("${spring.custom-auth.keycloak.admin-username}")
     private String adminUsername;
-    @Value("${spring.custom-adapter.keycloak.admin-password}")
+    @Value("${spring.custom-auth.keycloak.admin-password}")
     private String adminPassword;
-    @Value("${spring.custom-adapter.keycloak.admin-token-url}")
+    @Value("${spring.custom-auth.keycloak.admin-token-url}")
     private String adminTokenUrl;
-    @Value("${spring.custom-adapter.keycloak.admin-users-url}")
+    @Value("${spring.custom-auth.keycloak.admin-users-url}")
     private String userManagementUrl;
 }

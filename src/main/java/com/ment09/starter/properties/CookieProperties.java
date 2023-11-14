@@ -12,12 +12,12 @@ import org.springframework.context.annotation.PropertySource;
 @Configuration
 @PropertySource("/application.yaml")
 public class CookieProperties {
-    @Value("${spring.custom-adapter.cookie.http-only}")
+    @Value("${spring.custom-auth.cookie.http-only}")
     private boolean httpOnly;
-    @Value("${spring.custom-adapter.cookie.secured}")
+    @Value("${spring.custom-auth.cookie.secured}")
     private boolean secured;
-    @Value("${spring.custom-adapter.cookie.trusted-domain}")
+    @Value("${spring.custom-auth.cookie.trusted-domain}")
     private String trustedDomain;
-    @Value("${spring.custom-adapter.cookie.path}")
+    @Value("${spring.custom-auth.cookie.path}")
     private String path;
 }
