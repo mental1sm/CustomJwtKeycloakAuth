@@ -18,7 +18,7 @@ public class AdminTokenEncodedUrlTemplate {
     public MultiValueMap<String, String> encodedUrlBody() {
         MultiValueMap<String, String> data = new LinkedMultiValueMap<>();
         data.add("grant_type", "password");
-        data.add("client_id", authServerProperties.getClientId());
+        data.add("client_id", "admin-cli");
         data.add("username", authServerProperties.getAdminUsername());
         data.add("password", authServerProperties.getAdminPassword());
         data.add("client_secret", authServerProperties.getClientSecret());

@@ -5,10 +5,12 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ment09.starter.properties.AuthServerProperties;
 import com.ment09.starter.infrastructure.templates.IntrospectEncodedUrlTemplate;
+import com.ment09.starter.util.exceptions.InvalidCredentialsException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
@@ -31,15 +33,19 @@ public class IntrospectTokenRequest {
      * @param accessToken Access token
      * @return Результат интрспекции: токен валиден либо невалиден
      */
-    public boolean introspectAccessToken(String accessToken) throws JsonProcessingException {
+    public boolean introspectAccessToken(String accessToken) throws JsonProcessingException, InvalidCredentialsException {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
 
         MultiValueMap<String, String> payload = encodedUrl.encodedUrlBody(accessToken);
         HttpEntity<MultiValueMap<String, String>> requestHttpEntity = new HttpEntity<>(payload, headers);
         String introspectionEndpointUrl = authServerProperties.getIntrospectUrl();
-        String responseBody = introspectTemplate.postForEntity(introspectionEndpointUrl, requestHttpEntity, String.class).getBody();
-        JsonNode responseNode = objectMapper.readTree(responseBody);
+        ResponseEntity<String> response = introspectTemplate.postForEntity(introspectionEndpointUrl, requestHttpEntity, String.class);
+        JsonNode responseNode = objectMapper.readTree(response.getBody());
+
+        if (response.getStatusCode().value() != 200) {
+            throw new InvalidCredentialsException(response.getBody());
+        }
 
         return responseNode.get("active").toString().contentEquals("true");
     }

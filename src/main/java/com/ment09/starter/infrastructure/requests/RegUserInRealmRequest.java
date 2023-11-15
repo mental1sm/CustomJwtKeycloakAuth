@@ -5,6 +5,7 @@ import com.ment09.starter.domain.TokenPack;
 import com.ment09.starter.dto.TokenRegistrationDTO;
 import com.ment09.starter.infrastructure.templates.RegUserInRealmJsonTemplate;
 import com.ment09.starter.properties.AuthServerProperties;
+import com.ment09.starter.util.exceptions.UserIsAlreadyExistsException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
@@ -33,7 +34,7 @@ public class RegUserInRealmRequest {
      * @param admin Запакованный токен администратора
      * @return успешность регистрации пользователя
      */
-    public boolean regUserInRealm(TokenPack admin, TokenRegistrationDTO tokenRegistrationDTO) throws JsonProcessingException {
+    public int regUserInRealm(TokenPack admin, TokenRegistrationDTO tokenRegistrationDTO) throws JsonProcessingException, UserIsAlreadyExistsException {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Authorization", String.format("Bearer %s", admin.getToken()));
 
@@ -46,6 +47,10 @@ public class RegUserInRealmRequest {
                 new ParameterizedTypeReference<>() {}
         );
 
-        return response.getStatusCode().equals(HttpStatusCode.valueOf(200));
+        if (response.getStatusCode().value() != 201) {
+            throw new UserIsAlreadyExistsException(response.getBody());
+        }
+
+        return response.getStatusCode().value(); // 201 is Created; 401 Unauthorized; 404 Realm not found
     }
 }

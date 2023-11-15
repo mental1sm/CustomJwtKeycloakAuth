@@ -6,6 +6,8 @@ import com.ment09.starter.domain.TokenPackWrapper;
 import com.ment09.starter.dto.TokenAuthDTO;
 import com.ment09.starter.dto.TokenRegistrationDTO;
 import com.ment09.starter.infrastructure.requests.*;
+import com.ment09.starter.util.exceptions.InvalidCredentialsException;
+import com.ment09.starter.util.exceptions.UserIsAlreadyExistsException;
 import com.nimbusds.jwt.JWT;
 import com.nimbusds.jwt.JWTParser;
 import lombok.RequiredArgsConstructor;
@@ -31,16 +33,16 @@ public class ConcreteTokenService implements TokenService {
      * {@inheritDoc}
     */
     @Override
-    public void registerNewUser(TokenRegistrationDTO tokenRegistrationDTO) throws JsonProcessingException {
+    public int registerNewUser(TokenRegistrationDTO tokenRegistrationDTO) throws JsonProcessingException, UserIsAlreadyExistsException {
         TokenPack admin = adminTokenRequest.getAdminToken();
-        regUserInRealmRequest.regUserInRealm(admin, tokenRegistrationDTO);
+        return regUserInRealmRequest.regUserInRealm(admin, tokenRegistrationDTO);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public TokenPackWrapper authUser(TokenAuthDTO tokenAuthDTO) throws JsonProcessingException {
+    public TokenPackWrapper authUser(TokenAuthDTO tokenAuthDTO) throws JsonProcessingException, InvalidCredentialsException {
         return authTokenRequest.getAuthTokens(tokenAuthDTO);
     }
 
@@ -63,7 +65,7 @@ public class ConcreteTokenService implements TokenService {
      * {@inheritDoc}
      */
     @Override
-    public boolean introspectToken(String accessToken) throws JsonProcessingException {
+    public boolean introspectToken(String accessToken) throws JsonProcessingException, InvalidCredentialsException {
         return introspectTokenRequest.introspectAccessToken(accessToken);
     }
 
@@ -71,7 +73,7 @@ public class ConcreteTokenService implements TokenService {
      * {@inheritDoc}
      */
     @Override
-    public TokenPackWrapper refreshToken(String refreshToken) throws JsonProcessingException {
+    public TokenPackWrapper refreshToken(String refreshToken) throws JsonProcessingException, InvalidCredentialsException {
         return refreshTokenRequest.refreshToken(refreshToken);
     }
 }

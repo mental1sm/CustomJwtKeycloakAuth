@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ment09.starter.domain.TokenPackWrapper;
 import com.ment09.starter.properties.AuthServerProperties;
 import com.ment09.starter.infrastructure.templates.RefreshEncodedUrlTemplate;
+import com.ment09.starter.util.exceptions.InvalidCredentialsException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -33,13 +34,17 @@ public class RefreshTokenRequest extends BaseRequestWithTokenResponse {
      * @param refreshToken Refresh токен
      * @return Оберточный класс с двумя токенами
      */
-    public TokenPackWrapper refreshToken(String refreshToken) throws JsonProcessingException {
+    public TokenPackWrapper refreshToken(String refreshToken) throws JsonProcessingException, InvalidCredentialsException {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
 
         MultiValueMap<String, String> payload = refreshEncodedUrl.encodedUrlBody(refreshToken);
         HttpEntity<MultiValueMap<String, String>> requestHttpEntity = new HttpEntity<>(payload, headers);
         ResponseEntity<String> response = refreshTemplate.postForEntity(authServerProperties.getTokenUrl(), requestHttpEntity, String.class);
+
+        if (response.getStatusCode().value() != 200) {
+            throw new InvalidCredentialsException(response.getBody());
+        }
 
         return extractTokensFromResponseAsWrappedPack(objectMapper.readTree(response.getBody()));
     }

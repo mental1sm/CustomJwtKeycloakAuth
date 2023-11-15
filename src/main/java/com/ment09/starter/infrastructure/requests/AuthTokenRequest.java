@@ -7,6 +7,7 @@ import com.ment09.starter.domain.TokenPackWrapper;
 import com.ment09.starter.dto.TokenAuthDTO;
 import com.ment09.starter.properties.AuthServerProperties;
 import com.ment09.starter.infrastructure.templates.AuthEncodedUrlTemplate;
+import com.ment09.starter.util.exceptions.InvalidCredentialsException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -35,7 +36,7 @@ public class AuthTokenRequest extends BaseRequestWithTokenResponse {
      * @param tokenAuthDTO ДТО авторизации
      * @return оберточный класс TokenPackWrapper, содержащий внутри оба токена
     */
-    public TokenPackWrapper getAuthTokens(TokenAuthDTO tokenAuthDTO) throws JsonProcessingException {
+    public TokenPackWrapper getAuthTokens(TokenAuthDTO tokenAuthDTO) throws JsonProcessingException, InvalidCredentialsException {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
 
@@ -43,6 +44,10 @@ public class AuthTokenRequest extends BaseRequestWithTokenResponse {
         HttpEntity<MultiValueMap<String, String>> requestHttpEntity = new HttpEntity<>(payload, headers);
         String tokenEndpointUrl = authServerProperties.getTokenUrl();
         ResponseEntity<String> response = authTemplate.postForEntity(tokenEndpointUrl, requestHttpEntity, String.class);
+
+        if (response.getStatusCode().value() == 401) {
+            throw new InvalidCredentialsException(response.getBody());
+        }
 
         return extractTokensFromResponseAsWrappedPack(objectMapper.readTree(response.getBody()));
     }
