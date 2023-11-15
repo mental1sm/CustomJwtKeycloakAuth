@@ -6,6 +6,7 @@ import com.ment09.starter.util.CookieExtractor;
 import com.ment09.starter.util.CustomConstants;
 import com.ment09.starter.util.TokenAuthenticationWrapper;
 import com.ment09.starter.util.TokenCookieMapper;
+import com.ment09.starter.util.exceptions.InvalidCredentialsException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -33,9 +34,6 @@ public class CookieJwtFilter extends OncePerRequestFilter {
     private final CookieExtractor cookieExtractor;
     private final TokenService tokenService;
     private final TokenCookieMapper tokenCookieMapper;
-    private HttpServletRequest request;
-    private HttpServletResponse response;
-    private FilterChain filterChain;
 
     public CookieJwtFilter(CookieExtractor cookieExtractor, TokenService tokenService, TokenCookieMapper tokenCookieMapper) {
         this.tokenService = tokenService;
@@ -48,66 +46,63 @@ public class CookieJwtFilter extends OncePerRequestFilter {
     */
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        this.request = request;
-        this.response = response;
-        this.filterChain = filterChain;
 
         log.info("Начинаем проверку токена...");
         Optional<String> accessToken = cookieExtractor.extractValue(request, CustomConstants.TokenConstants.ACCESS_TOKEN.getValue());
         if (accessToken.isPresent()) {
             String realAccessToken = accessToken.get();
-            tokenExists(realAccessToken);
+            tokenExists(realAccessToken, request, response, filterChain);
         }
         else {
-            tokenIsNotExists();
+            tokenIsNotExists(request, response, filterChain);
         }
     }
 
     /**
      * Метод, действующий в случае, если токен не найден
      */
-    private void tokenIsNotExists() throws ServletException, IOException {
+    private void tokenIsNotExists(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         log.info("Токен не найден. Ищем рефреш-токен...");
-        refreshTokenCheck();
+        refreshTokenCheck(request, response, filterChain);
     }
 
     /**
      * Метод, действующий в случае, если токен найден
      */
-    private void tokenExists(String realAccessToken) throws ServletException, IOException {
+    private void tokenExists(String realAccessToken, HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         log.info("Токен существует. Проверяем срок истечения...");
         boolean healthy = tokenService.validateToken(realAccessToken);
         if (healthy) {
             log.info("Токен действителен.");
             TokenAuthenticationWrapper requestWrapper = new TokenAuthenticationWrapper(request, realAccessToken);
-            this.filterChain.doFilter(requestWrapper, response);
+            filterChain.doFilter(requestWrapper, response);
 
         }
         else {
             log.info("Токен недействителен. Проверяем существование рефреш-токена...");
-            refreshTokenCheck();
+            refreshTokenCheck(request, response, filterChain);
         }
     }
 
     /**
      * Метод, действующий в случае, если Refresh токен найден
      */
-    private void refreshExists(String realRefreshToken) throws IOException, ServletException {
+    private void refreshExists(String realRefreshToken, HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws IOException, ServletException {
         try {
             log.info("Рефреш-токен найден. Запрашиваем новые токены...");
             TokenPackWrapper tokens = tokenService.refreshToken(realRefreshToken);
             tokenCookieMapper.mapToCookie(response, tokens.getAccess(), tokens.getRefresh());
             TokenAuthenticationWrapper authenticationWrapper = new TokenAuthenticationWrapper(request, tokens.getAccess().getToken());
             filterChain.doFilter(authenticationWrapper, response);
-        } catch (HttpClientErrorException e) {
-            refreshIsNotExists();
+        } catch (HttpClientErrorException | InvalidCredentialsException e) {
+            refreshIsNotExists(request, response, filterChain);
         }
     }
 
     /**
      * Метод, действующий в случае, если Refresh токен не найден
      */
-    private void refreshIsNotExists() throws ServletException, IOException {
+    private void refreshIsNotExists(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         log.info("Рефреш-токен не найден. Авторизация провалена.");
         filterChain.doFilter(request, response);
     }
@@ -115,13 +110,13 @@ public class CookieJwtFilter extends OncePerRequestFilter {
     /**
      * Метод, проверяющий сам факт наличия Refresh токена в куках
      */
-    private void refreshTokenCheck() throws ServletException, IOException {
+    private void refreshTokenCheck(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         Optional<String> refreshToken = cookieExtractor.extractValue(request, CustomConstants.TokenConstants.REFRESH_TOKEN.getValue());
         if (refreshToken.isPresent()) {
-            refreshExists(refreshToken.get());
+            refreshExists(refreshToken.get(), request, response, filterChain);
         }
         else {
-            refreshIsNotExists();
+            refreshIsNotExists(request, response, filterChain);
         }
     }
 }
