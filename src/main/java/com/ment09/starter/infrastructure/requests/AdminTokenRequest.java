@@ -41,7 +41,7 @@ public class AdminTokenRequest {
         ResponseEntity<String> response = restTemplate.postForEntity(authServerProperties.getAdminTokenUrl(), httpEntity, String.class);
         JsonNode jsonNode = objectMapper.readTree(response.getBody());
         return TokenPack.builder()
-                .token(jsonNode.get("access_token").toString())
+                .token(jsonNode.get("access_token").toString().replace("\"", ""))
                 .lifeSpan(Integer.parseInt(jsonNode.get("expires_in").toString()))
                 .build();
     }

@@ -9,12 +9,10 @@ import com.ment09.starter.properties.AuthServerProperties;
 import com.ment09.starter.infrastructure.templates.AuthEncodedUrlTemplate;
 import com.ment09.starter.util.exceptions.InvalidCredentialsException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 /**
@@ -43,12 +41,12 @@ public class AuthTokenRequest extends BaseRequestWithTokenResponse {
         MultiValueMap<String, String> payload = encodedUrlTemplate.encodedUrlBody(tokenAuthDTO);
         HttpEntity<MultiValueMap<String, String>> requestHttpEntity = new HttpEntity<>(payload, headers);
         String tokenEndpointUrl = authServerProperties.getTokenUrl();
-        ResponseEntity<String> response = authTemplate.postForEntity(tokenEndpointUrl, requestHttpEntity, String.class);
 
-        if (response.getStatusCode().value() == 401) {
-            throw new InvalidCredentialsException(response.getBody());
+        try {
+            ResponseEntity<String> response = authTemplate.exchange(tokenEndpointUrl, HttpMethod.POST, requestHttpEntity, String.class);
+            return extractTokensFromResponseAsWrappedPack(objectMapper.readTree(response.getBody()));
+        } catch (HttpClientErrorException e) {
+            throw new InvalidCredentialsException(e.getResponseBodyAsString());
         }
-
-        return extractTokensFromResponseAsWrappedPack(objectMapper.readTree(response.getBody()));
     }
 }

@@ -21,7 +21,6 @@ public class AdminTokenEncodedUrlTemplate {
         data.add("client_id", "admin-cli");
         data.add("username", authServerProperties.getAdminUsername());
         data.add("password", authServerProperties.getAdminPassword());
-        data.add("client_secret", authServerProperties.getClientSecret());
         return data;
     }
 }
