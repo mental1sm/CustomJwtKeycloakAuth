@@ -43,7 +43,7 @@ public class RefreshTokenRequest extends BaseRequestWithTokenResponse {
         ResponseEntity<String> response = refreshTemplate.postForEntity(authServerProperties.getTokenUrl(), requestHttpEntity, String.class);
 
         if (response.getStatusCode().value() != 200) {
-            throw new InvalidCredentialsException(response.getBody());
+            throw new InvalidCredentialsException();
         }
 
         return extractTokensFromResponseAsWrappedPack(objectMapper.readTree(response.getBody()));
