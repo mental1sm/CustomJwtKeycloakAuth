@@ -46,7 +46,7 @@ public class AuthTokenRequest extends BaseRequestWithTokenResponse {
             ResponseEntity<String> response = authTemplate.exchange(tokenEndpointUrl, HttpMethod.POST, requestHttpEntity, String.class);
             return extractTokensFromResponseAsWrappedPack(objectMapper.readTree(response.getBody()));
         } catch (HttpClientErrorException e) {
-            throw new InvalidCredentialsException(e.getResponseBodyAsString());
+            throw new InvalidCredentialsException();
         }
     }
 }

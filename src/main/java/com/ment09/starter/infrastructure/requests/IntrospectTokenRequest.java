@@ -44,7 +44,7 @@ public class IntrospectTokenRequest {
         JsonNode responseNode = objectMapper.readTree(response.getBody());
 
         if (response.getStatusCode().value() != 200) {
-            throw new InvalidCredentialsException(response.getBody());
+            throw new InvalidCredentialsException();
         }
 
         return responseNode.get("active").toString().contentEquals("true");

@@ -58,7 +58,7 @@ public class RegUserInRealmRequest {
             log.debug(e.getStatusCode().toString());
             log.debug(headers.toString());
             log.debug(payload);
-            throw new UserIsAlreadyExistsException(e.getResponseBodyAsString());
+            throw new UserIsAlreadyExistsException();
         }
 
 
