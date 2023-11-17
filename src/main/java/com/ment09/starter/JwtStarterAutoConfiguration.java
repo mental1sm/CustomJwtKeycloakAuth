@@ -2,6 +2,7 @@ package com.ment09.starter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ment09.starter.config.CookieJwtFilter;
+import com.ment09.starter.config.JwtConverter;
 import com.ment09.starter.infrastructure.requests.*;
 import com.ment09.starter.infrastructure.templates.*;
 import com.ment09.starter.properties.CookieProperties;
@@ -14,6 +15,10 @@ import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
+import org.springframework.core.convert.converter.Converter;
+import org.springframework.security.authentication.AbstractAuthenticationToken;
+import org.springframework.security.oauth2.jwt.Jwt;
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.web.client.RestTemplate;
 
 @AutoConfiguration
@@ -52,6 +57,11 @@ public class JwtStarterAutoConfiguration {
     )
     {
         return new CookieJwtFilter(cookieExtractor, tokenService, tokenCookieMapper);
+    }
+
+    @Bean
+    JwtConverter jwtConverter() {
+        return new JwtConverter();
     }
 
     @Bean
@@ -156,5 +166,7 @@ public class JwtStarterAutoConfiguration {
     public RegUserInRealmJsonTemplate regUserInRealmJsonTemplate(ObjectMapper objectMapper) {
         return new RegUserInRealmJsonTemplate(objectMapper);
     }
+
+
 
 }
