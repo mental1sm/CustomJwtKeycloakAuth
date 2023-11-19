@@ -24,8 +24,6 @@ public class TokenCookieMapper {
      * @param refresh Refresh токен
      */
     public void mapToCookie(HttpServletResponse response, TokenPack access, TokenPack refresh) {
-        response.addHeader("Access-Control-Allow-Credentials", "true");
-
         Cookie accessTokenCookie = new Cookie(CustomConstants.TokenConstants.ACCESS_TOKEN.getValue(), access.getToken());
         accessTokenCookie.setMaxAge(access.getLifeSpan());
 
