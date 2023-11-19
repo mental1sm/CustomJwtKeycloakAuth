@@ -13,15 +13,14 @@ import com.ment09.starter.util.CookieExtractor;
 import com.ment09.starter.util.TokenCookieMapper;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
-import org.springframework.core.convert.converter.Converter;
-import org.springframework.security.authentication.AbstractAuthenticationToken;
-import org.springframework.security.oauth2.jwt.Jwt;
-import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.filter.OncePerRequestFilter;
 
 @AutoConfiguration
+@ConditionalOnProperty(value = "spring.custom-auth.enable", havingValue = "true")
 public class JwtStarterAutoConfiguration {
 
     @Bean
@@ -50,7 +49,7 @@ public class JwtStarterAutoConfiguration {
     }
 
     @Bean
-    public CookieJwtFilter cookieJwtFilter(
+    public OncePerRequestFilter cookieJwtFilter(
             CookieExtractor cookieExtractor,
             TokenService tokenService,
             TokenCookieMapper tokenCookieMapper

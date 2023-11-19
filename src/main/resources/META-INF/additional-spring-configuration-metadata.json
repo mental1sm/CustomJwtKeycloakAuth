@@ -59,6 +59,11 @@
       "name": "spring.custom-auth.server.admin-users-url",
       "type": "java.lang.String",
       "description": "Keycloak admin cli url for realm."
+    },
+    {
+      "name": "spring.custom-auth.enable",
+      "type": "java.lang.Boolean",
+      "description": "Enabled or Disabled this module."
     }
   ]
 }
