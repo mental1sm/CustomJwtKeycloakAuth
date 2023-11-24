@@ -59,7 +59,7 @@ public class JwtStarterAutoConfiguration {
     }
 
     @Bean
-    JwtConverter jwtConverter() {
+    public JwtConverter jwtConverter() {
         return new JwtConverter();
     }
 
