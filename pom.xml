@@ -8,9 +8,9 @@
         <version>3.1.5</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>com.ment09</groupId>
+    <groupId>com.github.mental1sm</groupId>
     <artifactId>custom-jwt-keycloak-auth-spring-boot-starter</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0.1</version>
     <name>custom-jwt-keycloak-auth-spring-boot-starter</name>
     <description>CustomKeycloakAdapterStarter</description>
     <properties>
