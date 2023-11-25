@@ -29,7 +29,6 @@ import java.util.Optional;
 */
 @Component
 @Slf4j
-@Order(Ordered.HIGHEST_PRECEDENCE)
 public class CookieJwtFilter extends OncePerRequestFilter {
     private final CookieExtractor cookieExtractor;
     private final TokenService tokenService;

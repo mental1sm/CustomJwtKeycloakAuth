@@ -63,7 +63,25 @@
     {
       "name": "spring.custom-auth.enable",
       "type": "java.lang.Boolean",
-      "description": "Enabled or Disabled this module."
+      "description": "Enabled or Disabled this module.",
+      "defaultValue": "true"
+    },
+    {
+      "name": "spring.custom-auth.api-key.secret",
+      "type": "java.lang.String",
+      "description": "Secret key for accessing API endpoints with admin rights."
+    },
+    {
+      "name": "spring.custom-auth.api-key.header-name",
+      "type": "java.lang.String",
+      "description": "Header name, where module will search API-key.",
+      "defaultValue": "X-API-KEY"
+    },
+    {
+      "name": "spring.custom-auth.api-key.enabled",
+      "type": "java.lang.Boolean",
+      "description": "Enables or disables API-key auth.",
+      "defaultValue": "true"
     }
   ]
 }

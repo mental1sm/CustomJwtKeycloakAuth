@@ -1,9 +1,12 @@
 package com.github.mental1sm.starter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.mental1sm.starter.config.ApiKeyAuthenticationToken;
+import com.github.mental1sm.starter.config.ApiKeyFilter;
 import com.github.mental1sm.starter.config.CookieJwtFilter;
 import com.github.mental1sm.starter.infrastructure.requests.*;
 import com.github.mental1sm.starter.infrastructure.templates.*;
+import com.github.mental1sm.starter.properties.ApiKeyProperties;
 import com.github.mental1sm.starter.properties.AuthServerProperties;
 import com.github.mental1sm.starter.properties.CookieProperties;
 import com.github.mental1sm.starter.service.ConcreteTokenService;
@@ -16,6 +19,8 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
+import org.springframework.core.annotation.Order;
+import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -34,6 +39,18 @@ public class JwtStarterAutoConfiguration {
     }
 
     @Bean
+    public ApiKeyProperties apiKeyProperties() {
+        return new ApiKeyProperties();
+    }
+
+    @Bean
+    @Order(1)
+    @ConditionalOnProperty(name = "spring.custom-auth.api-key.enabled", havingValue = "true")
+    public OncePerRequestFilter apiKeyFilter(ApiKeyProperties apiKeyProperties) {
+        return new ApiKeyFilter(apiKeyProperties);
+    }
+
+    @Bean
     public ObjectMapper objectMapper() {
         return new ObjectMapper();
     }
@@ -49,6 +66,7 @@ public class JwtStarterAutoConfiguration {
     }
 
     @Bean
+    @Order(2)
     public OncePerRequestFilter cookieJwtFilter(
             CookieExtractor cookieExtractor,
             TokenService tokenService,
