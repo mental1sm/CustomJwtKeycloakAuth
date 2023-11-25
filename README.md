@@ -1,10 +1,14 @@
 ```
+$ git clone https://github.com/mental1sm/custom-jwt-keycloak-auth-spring-boot-starter.git
+```
+```
 $ mvn clean install
 ```
-```
+```gradle
 implementation 'com.github.mental1sm:custom-jwt-keycloak-auth-spring-boot-starter:1.0.1'
 ```
-### OR
+
+<h4>OR</h4>
 
 ```gradle
 repositories {
