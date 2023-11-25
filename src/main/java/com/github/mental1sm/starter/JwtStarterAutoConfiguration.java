@@ -42,9 +42,8 @@ public class JwtStarterAutoConfiguration {
     }
 
     @Bean
-    @Order(1)
     @ConditionalOnProperty(name = "spring.custom-auth.api-key.enabled", havingValue = "true")
-    public OncePerRequestFilter apiKeyFilter(ApiKeyProperties apiKeyProperties) {
+    public ApiKeyFilter apiKeyFilter(ApiKeyProperties apiKeyProperties) {
         return new ApiKeyFilter(apiKeyProperties);
     }
 

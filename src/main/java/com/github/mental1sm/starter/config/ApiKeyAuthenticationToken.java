@@ -26,4 +26,5 @@ public class ApiKeyAuthenticationToken extends AbstractAuthenticationToken {
     public Object getPrincipal() {
         return apiKey;
     }
+
 }
