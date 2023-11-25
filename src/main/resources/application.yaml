@@ -14,4 +14,8 @@ spring:
       path: /
       http-only: true
       secured: true
+    api-key:
+      secret: fjEUFCdi23Uc93hgGHR9u7v734yhpYf499
+      header-name: X-API-KEY
+      enabled: true
 
