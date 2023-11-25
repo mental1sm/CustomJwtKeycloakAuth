@@ -1,7 +1,6 @@
 package com.github.mental1sm.starter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.github.mental1sm.starter.config.ApiKeyAuthenticationToken;
 import com.github.mental1sm.starter.config.ApiKeyFilter;
 import com.github.mental1sm.starter.config.CookieJwtFilter;
 import com.github.mental1sm.starter.infrastructure.requests.*;
@@ -20,7 +19,6 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.annotation.Order;
-import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.filter.OncePerRequestFilter;
 
