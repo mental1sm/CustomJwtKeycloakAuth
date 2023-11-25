@@ -26,17 +26,15 @@ import java.util.Optional;
 @Component
 @Slf4j
 @RequiredArgsConstructor
-public class ApiKeyFilter implements Filter, Ordered {
+public class ApiKeyFilter extends OncePerRequestFilter {
 
     private final ApiKeyProperties apiKeyProperties;
 
     @Override
-    public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain)
-            throws ServletException, IOException
-    {
+    public void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+            throws ServletException, IOException {
         log.info("Начинаем проверку API-ключа...");
-        if(request instanceof HttpServletRequest && response instanceof HttpServletResponse) {
-            Optional<String> apiKey = getApiKey((HttpServletRequest) request);
+            Optional<String> apiKey = getApiKey(request);
             if (apiKey.isPresent()) {
                 log.info("API-ключ найден. Начинаем проверку.");
                 String apiKeyValue = apiKey.get();
@@ -49,7 +47,6 @@ public class ApiKeyFilter implements Filter, Ordered {
                     apiKeyAuthenticationToken.setDetails(anonymousUser);
                     SecurityContextHolder.getContext().setAuthentication(apiKeyAuthenticationToken);
 
-                }
             }
         }
         log.info("Продолжаем фильтрацию.");
@@ -66,10 +63,5 @@ public class ApiKeyFilter implements Filter, Ordered {
             optionalApiKey = Optional.of(apiKeyHeader);
         }
         return optionalApiKey;
-    }
-
-    @Override
-    public int getOrder() {
-        return 1000;
     }
 }
